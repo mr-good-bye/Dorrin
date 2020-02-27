@@ -15,6 +15,7 @@ def recognise():
     r = sr.Recognizer()
     mic = sr.Microphone()
     text = ''
+    print("Listening")
     with mic as source:
         audio = r.listen(source)
     try:
