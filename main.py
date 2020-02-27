@@ -6,7 +6,6 @@ import VkBot
 import VkBot.VkManager as VkManager
 import SpeechWork
 from threading import Thread as dick
-from appJar import gui
 from _collections import deque
 import time
 
@@ -71,27 +70,49 @@ class GUI:
         self.buffer = buffer
         self.text = ""
         self.mGui.startSubWindow("VkBot")
-        self.mGui.setSize("800x600")
+        self.mGui.setSize("800x350")
         #self.mGui.startLabelFrame("VkGui")
+        self.mGui.startScrollPane(title="pane", row=0, column=0,rowspan=10,  sticky="new")
+        self.mGui.setScrollPaneWidth("pane",800)
         self.mGui.addEmptyMessage("LastMsg")
-        self.mGui.addEntry("message")
-        self.mGui.addButton("Exec", self.execute)
+        self.mGui.setMessageWidth("LastMsg", 750)
+        self.mGui.stopScrollPane()
+        self.mGui.addEntry("message", 10)
+        self.mGui.setEntryWidth("message", 800)
+        self.mGui.addButton("Exec", self.execute, 11)
         #self.mGui.stopLabelFrame()
+        self.mGui.setLocation(x=200,y=100)
+        self.mGui.show()
         self.mGui.stopSubWindow()
 
         thr = dick(target=self.update, args = (self.buffer,))
         thr.start()
         self.mGui.go(startWindow="VkBot")
 
-    def update(self, get):
+    """def update(self, get):
+        spis = list()
+        for i in range(5):
+            spis.append(i + '.')
         while True:
             bf = get()
             print(bf)
             if bf != 0:
-                self.text = self.text + '\n' + bf
+                for i in range(4):
+                    list[i] = list[i+1]
+                list[5] = bf
+                self.text = ''
+                for i in range(5):
+                    self.text = self.text + spis[i] + "\n"
                 print(self.text)
                 self.mGui.clearMessage("LastMsg")
                 self.mGui.setMessage("LastMsg", self.text)
+            time.sleep(0.5)"""
+    def update(self, get):
+        while True:
+            bf = get()
+            if bf != 0:
+                self.text = self.mGui.getMessage("LastMsg")
+                self.mGui.setMessage("LastMsg", bf + "\n" + self.text)
             time.sleep(0.5)
 
 
@@ -109,6 +130,8 @@ def handler(event):
             else:
                 SpeechWork.speak("Пользователь не найден")
             break
+        if str(word).lower() in ('1'):
+            buf.set('Test =)')
 
 
 def spThr():
@@ -116,9 +139,11 @@ def spThr():
         handler(SpeechWork.recognise())
 
 
+print("he")
+tSpThr = dick(target = spThr)
+tSpThr.start()
 
 dgui = GUI(buf.get, mGui)
+print("Hello")
 
 
-tSpThr = dick(target = spThr)
-#tSpThr.start()

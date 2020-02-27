@@ -46,6 +46,8 @@ class VkAccount:
         with open(self.path + r'\userData', 'r') as f:
             for line in f:
                 data = line.split(':')
+                if len(data) < 2:
+                    continue
                 self.userData[data[0]] = data[1]
 
 
