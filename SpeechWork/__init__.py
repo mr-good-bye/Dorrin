@@ -12,6 +12,8 @@ def detect_language(word: str):
             c_ru += 1
         elif char in en:
             c_en += 1
+    if c_ru == c_en == 0:
+        return 'oth'
     if c_ru < c_en:
         return 'en'
     else:
@@ -32,6 +34,8 @@ def speak(_text):
     text = [[x, detect_language(x)] for x in text]
     res = [text[0]]
     for word in text[1:]:
+        if word[1] != 'oth' and res[-1][1] == 'oth':
+            res[-1][1] = word[1]
         if word[1] == res[-1][1] or word[1] == 'oth':
             res[-1][0] += f' {word[0]}'
         else:
@@ -65,8 +69,15 @@ def recognise():
     return text
 
 
-def Beep(what=''):
-    pass  # TODO Beep
+def beep(what: int = 0):
+    res = format(what, 'b')
+    _str = ''
+    for i in res:
+        if i == '0':
+            _str += 'dong '
+        else:
+            _str += 'ding '
+    speak(_str)
 
 
 def _test():

@@ -2,11 +2,16 @@ import Modules as m
 import SpeechWork as sw
 
 
-#print(sw.speak(m.handler('сколько времени?')))
-#print(sw.speak(m.handler('Huesos')))
-#print(sw.speak(m.handler('Повтори Я гей')))
 
-a = ''
-while a != 'выход':
-    a = sw.recognise()
-    print(sw.speak(m.handler(a)))
+
+
+def speech_test():
+    a = ''
+    while a != 'выход':
+        a = sw.recognise()
+        print(sw.speak(m.handler(a)))
+
+
+if __name__ == "__main__":
+    #speech_test()
+    sw.speak(m.handler('сколько времени'))
