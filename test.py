@@ -1,17 +1,27 @@
-import Modules as m
-import SpeechWork as sw
+import ssl
+
+from requests import Session
+from requests.adapters import HTTPAdapter
+from urllib3.poolmanager import PoolManager
 
 
+class MyAdapter(HTTPAdapter):
+    def init_poolmanager(self, connections, maxsize, block=False):
+        self.poolmanager = PoolManager(num_pools=connections,
+                                       maxsize=maxsize,
+                                       block=block,
+                                       ssl_version=ssl.PROTOCOL_TLSv1)
 
 
-
-def speech_test():
-    a = ''
-    while a != 'выход':
-        a = sw.recognise()
-        print(sw.speak(m.handler(a)))
+s = Session()
+s.mount("https://", MyAdapter())
 
 
-if __name__ == "__main__":
-    #speech_test()
-    sw.speak(m.handler('сколько времени'))
+def exoooy(text):
+    headers = {'Content-Type': 'application/json'}
+    json = {"query": text, "intro": 0, "filter": 1}
+    return s.post('https://zeapi.yandex.net/lab/api/yalm/text3',
+                  json=json, headers=headers).json()
+
+
+print(exoooy('Привет HABR'))

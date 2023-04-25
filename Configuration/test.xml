@@ -1,0 +1,1 @@
+<config><param name="test">test</param><param name="test2">test2</param><group name="test_group"><param name="test">test in group</param></group></config>
