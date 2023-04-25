@@ -7,6 +7,6 @@
 - [ ] Translate everything to rus + eng languages
 - [ ] Create rus/eng dict to change
 - [ ] Create Personal module
-- [ ] Create AI module
+- [X] Create AI module
 - [ ] Create DesktopOrganiser module
 - [ ] Create UnitsConverter module
